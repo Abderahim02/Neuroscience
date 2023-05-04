@@ -38,17 +38,17 @@ mat2 = scipy.io.loadmat('GroupAverage_rsfMRI_matrix.mat')
 Coactivation_matrix2=mat2['GroupAverage_rsfMRI']
 Coordinates2=mat2['Coord']
 
-Nmax=4
-Nmax=min(Nmax,Coactivation_matrix.shape[0])
+Nmax=15
+Nmax=min(Nmax,Coactivation_matrix1.shape[0])
 print('Nombre de sommets conserves: '+str(Nmax))
-Coactivation_matrix=Coactivation_matrix[:Nmax,:Nmax]
-Coordinates=Coordinates[:Nmax,:]
+Coactivation_matrix = Coactivation_matrix1[:Nmax,:Nmax]
+Coordinates = Coordinates1[:Nmax,:]
 plt.close('all')
-plot_connection_matrix_3d(Coactivation_matrix,Coordinates)
-plot_connection_matrix_2d(Coactivation_matrix,Coordinates)
-print(Coactivation_matrix)
-print(len(Coactivation_matrix))
-#plt.show()
+plot_connection_matrix_3d(Coactivation_matrix, Coordinates)
+plot_connection_matrix_2d(Coactivation_matrix, Coordinates)
+# print(Coactivation_matrix)
+# print(len(Coactivation_matrix))
+# plt.show()
 print(Coactivation_matrix2)
 print(Coactivation_matrix1)
 
@@ -84,5 +84,3 @@ def calcul_max_sommets_1minute():
     return None
 #calcul_max_sommets_1minute()
 
-def rich_club_coefficient(G):
-    return 0
