@@ -39,7 +39,7 @@ def rich_club_coefficient(G, k):
     def construct_graph_induit_order_k(Mat, k):
         T=Mat
         for i in range (len(Mat)):
-            if degre_sommet(i, Mat) > k:
+            if degre_sommet(i, Mat) < k:
                 for j in range(len(Mat[i])):
                     Mat[i][j] = 0
         return T 
@@ -51,3 +51,13 @@ def test_calcul_densite():
     print("Le rich club coeef du graphe 1 est ",rich_club_coefficient(Coactivation_matrix1, 5))
     print("Le rich club du coeiff graphe 2 est ",rich_club_coefficient(Coactivation_matrix2, 5))
 test_calcul_densite()
+
+def vertex_neighbors(s, Mat) :
+    T=[]
+    for i in range(len(Mat)):
+        if Mat[s][i] != 0:
+            T.append(i)
+    return T 
+def test_vertex_neighbors():
+    print(vertex_neighbors(6, Coactivation_matrix1))
+test_vertex_neighbors()

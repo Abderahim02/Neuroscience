@@ -83,4 +83,3 @@ def calcul_max_sommets_1minute():
     print("le nombre de sommets visulisés: ", n)
     return None
 #calcul_max_sommets_1minute()
-
