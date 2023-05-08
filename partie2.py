@@ -1,5 +1,28 @@
 from visualisation import *
 
+
+def degre_entrant (sommet, matrix):
+    if(sommet > matrix.shape[0]-1){
+        return print("ERROR")
+    }
+    vector = matrix [:, sommet]
+    count = 0
+    for i in range(len( vector )):
+        if vector [i] > 0:
+            count += 1
+    return count
+
+def degre_sortant (sommet, matrix):
+    if(sommet > matrix.shape[0]-1){
+        return print("ERROR")
+    }
+    vector = matrix[sommet, :]
+    count = 0
+    for i in range(len( vector )):
+        if vector[i] > 0:
+            count += 1
+    return count
+
 def degre_sommet(sommet, matrix):
     count=0
     for i in range(len(matrix)):
