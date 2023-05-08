@@ -38,14 +38,14 @@ mat2 = scipy.io.loadmat('GroupAverage_rsfMRI_matrix.mat')
 Coactivation_matrix2=mat2['GroupAverage_rsfMRI']
 Coordinates2=mat2['Coord']
 
-Nmax=15
+Nmax=600
 Nmax=min(Nmax,Coactivation_matrix1.shape[0])
 print('Nombre de sommets conserves: '+str(Nmax))
 Coactivation_matrix = Coactivation_matrix1[:Nmax,:Nmax]
 Coordinates = Coordinates1[:Nmax,:]
 plt.close('all')
-plot_connection_matrix_3d(Coactivation_matrix, Coordinates)
-plot_connection_matrix_2d(Coactivation_matrix, Coordinates)
+#plot_connection_matrix_3d(Coactivation_matrix, Coordinates)
+#plot_connection_matrix_2d(Coactivation_matrix, Coordinates)
 # print(Coactivation_matrix)
 # print(len(Coactivation_matrix))
 # plt.show()
@@ -75,7 +75,7 @@ def calcul_max_sommets_1minute():
     # Calculer le temps d'exécution
     execution_time = end_time - start_time
     while execution_time < 60 : 
-        n+=200
+        n+=100
         start_time = time.time()
         visualation(n)
         end_time = time.time()
