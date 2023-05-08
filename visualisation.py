@@ -38,48 +38,50 @@ mat2 = scipy.io.loadmat('GroupAverage_rsfMRI_matrix.mat')
 Coactivation_matrix2=mat2['GroupAverage_rsfMRI']
 Coordinates2=mat2['Coord']
 
-Nmax=15
+Nmax=50
 Nmax=min(Nmax,Coactivation_matrix1.shape[0])
 print('Nombre de sommets conserves: '+str(Nmax))
 Coactivation_matrix = Coactivation_matrix1[:Nmax,:Nmax]
 Coordinates = Coordinates1[:Nmax,:]
-plt.close('all')
-plot_connection_matrix_3d(Coactivation_matrix, Coordinates)
-plot_connection_matrix_2d(Coactivation_matrix, Coordinates)
+Coactivation_matrix2=Coactivation_matrix2[:Nmax,:Nmax]
+Coordinates2=Coordinates2[:Nmax,:]
+# plt.close('all')
+# plot_connection_matrix_3d(Coactivation_matrix, Coordinates)
+# plot_connection_matrix_3d(Coactivation_matrix2, Coordinates2)
+# plot_connection_matrix_2d(Coactivation_matrix, Coordinates)
 # print(Coactivation_matrix)
 # print(len(Coactivation_matrix))
-# plt.show()
-print(Coactivation_matrix2)
-print(Coactivation_matrix1)
+# #plt.show()
+# print(Coactivation_matrix2)
+# print(Coactivation_matrix1)
 
-def visualation(n):  
-    print('Nombre de sommets total : '+str(Coactivation_matrix2.shape[0]))
+def visualation(n, Coactivation_matrix1, Coordinates1):  
     Nmax=n
-    Nmax=min(Nmax,Coactivation_matrix2.shape[0])
+    Nmax=min(Nmax,Coactivation_matrix1.shape[0])
     print('Nombre de sommets conserves: '+str(Nmax))
-    Coactivation_matrix2=Coactivation_matrix[:Nmax,:Nmax]
-    Coordinates2=Coordinates2[:Nmax,:]
+    Coactivation_matrix = Coactivation_matrix1[:Nmax,:Nmax]
+    Coordinates = Coordinates1[:Nmax,:]
     plt.close('all')
-    plot_connection_matrix_3d(Coactivation_matrix2,Coordinates2)
-    plot_connection_matrix_2d(Coactivation_matrix2,Coordinates2)
-    plt.show()
+    plot_connection_matrix_3d(Coactivation_matrix, Coordinates)
+    #plt.show()
+
 
 import time
 
-def calcul_max_sommets_1minute():
+def calcul_max_sommets_1minute(Coactivation_matrix1, Coordinates1):
     n=50
     # Mesurer le temps d'exécution de la fonction
     start_time = time.time()
-    visualation(n)
+    visualation(n, Coactivation_matrix1, Coordinates1)
     end_time = time.time()
     # Calculer le temps d'exécution
     execution_time = end_time - start_time
     while execution_time < 60 : 
-        n+=200
+        n+=50
         start_time = time.time()
-        visualation(n)
+        visualation(n, Coactivation_matrix1, Coordinates1)
         end_time = time.time()
         execution_time = end_time - start_time
-    print("le nombre de sommets visulisés: ", n)
+        print("le nombre de sommets visulisés: ", n)
     return None
-#calcul_max_sommets_1minute()
+#calcul_max_sommets_1minute(Coactivation_matrix1, Coordinates1)
