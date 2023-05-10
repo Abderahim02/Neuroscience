@@ -92,13 +92,12 @@ def nbAreteGraphe(Mat):
                 count+=1
     return count
 
+"Cette fonction renvoie la modularité de la partition community"
 def modularity (matrix , community ):
-    "Cette fonction renvoie la m o d u l a r i t de la partition community"
     n = len(matrix)
     result = 0
     for elt1 in community :
         for elt2 in community :
-            result += (matrix[elt1 ][ elt2] -
-            (sum(matrix[elt1 ])*
+            result += (matrix[elt1 ][ elt2] - (sum(matrix[elt1 ])*
             sum(matrix[elt2 ])/(2*nbAreteGraphe (matrix ))))
     return result /(2*nbAreteGraphe (matrix ))
