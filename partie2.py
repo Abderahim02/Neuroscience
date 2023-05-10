@@ -11,6 +11,12 @@ def degre_entrant (sommet, matrix):
             count += 1
     return count
 
+def degre_entrant_weight (sommet, matrix):
+    if sommet > matrix.shape[0]-1 :
+        return print("ERROR")
+    return sum(matrix[:][sommet])
+
+
 def degre_sortant (sommet, matrix):
     if(sommet > matrix.shape[0]-1):
         return print("ERROR")
@@ -20,6 +26,14 @@ def degre_sortant (sommet, matrix):
         if vector[i] > 0:
             count += 1
     return count
+
+def degre_sortant_weight (sommet, matrix):
+    if(sommet > matrix.shape[0]-1):
+        return print("ERROR")
+    return sum(matrix[sommet][:])
+
+def strength(matrix, sommet):
+    return np.abs(degre_sortant_weight (sommet, matrix)-degre_entrant_weight (sommet, matrix))
 
 def degre_sommet(sommet, matrix):
     count=0
@@ -195,39 +209,6 @@ def plot_calcul_rich_club():
     plt.legend()
     plt.show()
 
-
-def dijkstra(matrix, sommet):
-    n = len(matrix)
-    distance_infinie = n + 1000
-    d = [distance_infinie] * n
-    d[sommet] = 0
-    sommetDejaVu = []
-    parents = [0] * n
-    parents[sommet] = sommet
-    nonNoir = list(range(0, n))
-
-    for i in range(n):
-        sommetMin = None
-        minDistance = distance_infinie
-        for v in nonNoir:
-            if d[v] < minDistance:
-                sommetMin = v
-                minDistance = d[v]
-
-        sommetDejaVu.append(sommetMin)
-        sommetDejaVu.sort()
-        nonNoir.remove(sommetMin)
-
-        for j in range(n):
-            if matrix[sommetMin][j] != 0:
-                poids = matrix[sommetMin][j]
-                if d[sommetMin] + poids < d[j]:
-                    d[j] = d[sommetMin] + poids
-                    parents[j] = sommetMin
-
-    return [d, parents]
-
-print(dijkstra(Coactivation_matrix1, 1));
 
 
 if __name__=='__main__' :

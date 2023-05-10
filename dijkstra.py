@@ -133,7 +133,7 @@ def max_betweenness_centrality (matrix):
     all_centralities = []
     for i in range(len(matrix)):
         all_centralities.append( betweenness_centrality (matrix , i))
-        max_cent = max(  all_centralities)
+        max_cent = max(all_centralities)
         res = []
         for j in range(len(all_centralities)):
             if all_centralities[j] == max_cent:
