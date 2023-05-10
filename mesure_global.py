@@ -1,6 +1,10 @@
 
 import numpy as np
 
+# The functions degre_entrant and degre_sortant calculate the number of incoming and outgoing edges f
+# or a given vertex in a matrix. The matrix represents a graph, where non-zero values indicate the
+# presence of an edge.
+
 def degre_entrant (sommet, matrix):
     if sommet > matrix.shape[0]-1 :
         return print("ERROR")
@@ -23,6 +27,7 @@ def degre_sortant (sommet, matrix):
 
 
 
+#he function max_degre finds the vertices with the maximum degree in a matrix.
 def max_degre(matrix):
     max_degre=[-1 for i in range(len(matrix))]
     print(len(matrix))
@@ -37,6 +42,7 @@ def max_degre(matrix):
 
 
 
+# A function that computes the density of a matrix representing a graph
 def calcul_densite(Mat):
     nb_arcs = 0
     n = len(Mat)
@@ -48,7 +54,7 @@ def calcul_densite(Mat):
     return nb_arcs/((n * (n-1))/2)
 
 
-
+#A function that calculates the rich club coefficient of a graph represented by the matrix G. It first defines an inner function 
 def rich_club_coefficient(G, k):
     def construct_graph_induit_order_k(Mat, k):
         T=Mat
@@ -64,7 +70,7 @@ from visualisation import *
 
 
 
-
+#This function calculates and plots the time taken for computing the degree of a vertex for different matrix sizes.
 def plot_calcul_degre_sommet():
     Valeurs1 = []
     Valeurs2 = []
@@ -87,6 +93,7 @@ def plot_calcul_degre_sommet():
     plt.legend()
     plt.show()
 
+#This function calculates and plots the time taken for computing the density of a matrix for different matrix sizes.
 def plot_calcul_densite():
     Valeurs = []
     for i in range (20, 1600, 20):
@@ -103,6 +110,8 @@ def plot_calcul_densite():
     plt.legend()
     plt.show()
 
+
+#his function calculates and plots the time taken for computing the rich club coefficient for different matrix sizes
 def plot_calcul_rich_club():
     Valeurs1 = []
     Valeurs2 = []
@@ -127,11 +136,11 @@ def plot_calcul_rich_club():
     plt.show()
 
 
-
+#All tests
 if __name__=='__main__' :
-    # plot_calcul_degre_sommet()
-    # plot_calcul_densite()
-    # plot_calcul_rich_club()
+    plot_calcul_degre_sommet()
+    plot_calcul_densite()
+    plot_calcul_rich_club()
     print(clusetring_coefficient_graph(Coactivation_matrix))
     print(modularity(Coactivation_matrix, [3, 20, 7, 500]))
-    print("Ok")
+    print("Ok all_functions")
