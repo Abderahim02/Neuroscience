@@ -114,7 +114,7 @@ def TestDijkstra():
 print(TestDijkstra())
 
 
-def betweenness_centrality (matrix , sommet ):
+def betweenness_centrality (matrix , sommet):
     sum = 0
     paths = []
     for i in range( len(matrix)):
@@ -127,4 +127,18 @@ def betweenness_centrality (matrix , sommet ):
             if sommet == path[i]:
                 sum += 1
     return sum
+
+
+def max_betweenness_centrality (matrix):
+    all_centralities = []
+    for i in range(len(matrix)):
+        all_centralities.append( betweenness_centrality (matrix , i))
+        max_cent = max(  all_centralities)
+        res = []
+        for j in range(len(all_centralities)):
+            if all_centralities[j] == max_cent:
+                res.append(j)
+    return res
+
+
 
