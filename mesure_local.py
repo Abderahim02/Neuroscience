@@ -64,3 +64,44 @@ def modularity (matrix , community ):
             (sum(matrix[elt1 ])*
             sum(matrix[elt2 ])/(2*nbAreteGraphe (matrix ))))
     return result /(2*nbAreteGraphe (matrix ))
+
+import networkx as nx
+import matplotlib.pyplot as plt
+
+# Création d'un graphe de réseau cérébral normal
+G_normal = nx.watts_strogatz_graph(50, 10, 0.1)
+
+# Création d'un graphe de réseau cérébral chez les individus atteints de troubles du spectre autistique
+G_autism = nx.watts_strogatz_graph(50, 10, 0.02)
+
+# Modification des attributs du graphe chez les individus atteints de troubles du spectre autistique
+nx.set_node_attributes(G_autism, {n: {'modularity': 0.7, 'clustering': 0.3, 'local_efficiency': 0.5, 'global_efficiency': 0.8} for n in G_autism.nodes})
+
+# Création de la figure avec deux sous-graphes
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5))
+
+# Affichage du graphe de réseau cérébral normal
+pos = nx.circular_layout(G_normal)
+nx.draw_networkx(G_normal, pos, ax=ax1, with_labels=False, node_size=100)
+ax1.set_title('Graphe de réseau cérébral normal')
+
+# Affichage du graphe de réseau cérébral chez les individus atteints de troubles du spectre autistique
+pos = nx.circular_layout(G_autism)
+node_colors = [G_autism.nodes[n]['modularity'] for n in G_autism.nodes]
+nx.draw_networkx(G_autism, pos, ax=ax2, with_labels=False, node_size=100, node_color=node_colors, cmap='coolwarm')
+ax2.set_title('Graphe de réseau cérébral chez les individus atteints de TSA')
+
+# # Ajout d'une barre de couleur pour représenter l'attribut modularity
+# sm = plt.cm.ScalarMappable(cmap='coolwarm')
+# sm.set_array(node_colors)
+# cbar = plt.colorbar(sm, ax=[ax1, ax2], orientation='vertical', pad=0.05)
+# cbar.set_label('Modularity')
+
+# Ajustement des espacements entre les sous-graphes
+plt.tight_layout()
+
+# Affichage de la figure
+plt.show()
+
+
+
