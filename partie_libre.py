@@ -1,5 +1,4 @@
 
-import numpy as np
 
 # A function that calculates the sum of weights of outgoing edges from a given vertex in a matrix
 def degre_sortant_weight(sommet, matrix):
@@ -23,6 +22,6 @@ def degre_entrant_weight(sommet, matrix):
 
 #A function that calculate the strength of a node
 def strength(matrix, sommet):
-    # Calculate the absolute difference between the sum of outgoing and incoming edge weights for a vertex
-    return np.abs(degre_sortant_weight(sommet, matrix) - degre_entrant_weight(sommet, matrix))
+    # Calculate the addition between the sum of outgoing and incoming edge weights for a vertex
+    return degre_sortant_weight(sommet, matrix) + degre_entrant_weight(sommet, matrix)
 
