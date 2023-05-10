@@ -27,7 +27,7 @@ def Dijkstra(s: Vertex, t: Vertex, G: Graph) -> Tuple[List[int], List[int]]:
     while b != 0:
         if len(GRIS) == 0:
             return distances, parents
-        x = CalculateDplusHmin(GRIS, distances, G)
+        x = CalculateDmin(GRIS, distances, G)
         if x == t:
             return distances, parents
         L = GetOutgoingArcs(x, G)
@@ -65,13 +65,13 @@ def Initialization(s: Vertex, G: Graph) -> Tuple[List[int], List[int]]:
     return d, parent
 
 # Fonction CalculateDplusHmin
-def CalculateDplusHmin(GRIS: Set[Vertex], d: List[int], G: Graph) -> Vertex:
+def CalculateDmin(GRIS: Set[Vertex], d: List[int], G: Graph) -> Vertex:
     x = None
     min_val = float('inf')
     for v in GRIS:
-        if d[v.s] + Heuristic(v, G) < min_val:
+        if d[v.s] + 1 < min_val:
             x = v
-            min_val = d[v.s] + Heuristic(v, G)
+            min_val = d[v.s] + 1
     return x
 
 # Fonction GetOutgoingArcs
@@ -81,10 +81,6 @@ def GetOutgoingArcs(x: Vertex, G: Graph) -> List[Arc]:
         if G.mat[x.s][i] != 0:
             arcs.append(Arc(x, Vertex(i), G.mat[x.s][i]))
     return arcs
-
-# Fonction Heuristic
-def Heuristic(v: Vertex, G: Graph) -> int:
-    return 1
 
 # Fonction de test TestAstar
 def TestDijkstra():
