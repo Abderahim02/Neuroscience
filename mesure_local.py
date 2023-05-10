@@ -2,6 +2,7 @@ import random
 import numpy as np
 import time
 import matplotlib.pyplot as plt
+import networkx as nx
 
 
 "Cette fonction retourne les voisins du sommet"
@@ -102,8 +103,7 @@ def modularity (matrix , community ):
             sum(matrix[elt2 ])/(2*nbAreteGraphe (matrix ))))
     return result /(2*nbAreteGraphe (matrix ))
 
-import networkx as nx
-import matplotlib.pyplot as plt
+
 
 # Création d'un graphe de réseau cérébral normal
 G_normal = nx.watts_strogatz_graph(50, 10, 0.1)
@@ -128,17 +128,46 @@ node_colors = [G_autism.nodes[n]['modularity'] for n in G_autism.nodes]
 nx.draw_networkx(G_autism, pos, ax=ax2, with_labels=False, node_size=100, node_color=node_colors, cmap='coolwarm')
 ax2.set_title('Graphe de réseau cérébral chez les individus atteints de TSA')
 
-# # Ajout d'une barre de couleur pour représenter l'attribut modularity
-# sm = plt.cm.ScalarMappable(cmap='coolwarm')
-# sm.set_array(node_colors)
-# cbar = plt.colorbar(sm, ax=[ax1, ax2], orientation='vertical', pad=0.05)
-# cbar.set_label('Modularity')
+# Ajustement des espacements entre les sous-graphes
+plt.tight_layout()
+
+# Affichage de la figure
+#plt.show()
+
+# Création d'un graphe de réseau cérébral normal
+G_normal = nx.watts_strogatz_graph(100, 10, 0.1)
+
+# Création d'un graphe de réseau cérébral chez les patients atteints de sclérose en plaques
+G_ms = nx.watts_strogatz_graph(100, 10, 0.1)
+
+# Modification des attributs du graphe chez les patients atteints de sclérose en plaques
+nx.set_node_attributes(G_ms, {n: {'modularity': 0.5, 'memory_performance': 0.7} for n in G_ms.nodes})
+
+# Création de la figure avec deux sous-graphes
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5))
+
+# Affichage du graphe de réseau cérébral normal
+pos = nx.circular_layout(G_normal)
+nx.draw_networkx(G_normal, pos, ax=ax1, with_labels=False, node_size=100)
+ax1.set_title('Graphe de réseau cérébral normal')
+
+# Affichage du graphe de réseau cérébral chez les patients atteints de sclérose en plaques
+pos = nx.circular_layout(G_ms)
+node_colors = [G_ms.nodes[n]['modularity'] for n in G_ms.nodes]
+nx.draw_networkx(G_ms, pos, ax=ax2, with_labels=False, node_size=100, node_color=node_colors, cmap='coolwarm')
+ax2.set_title('Graphe de réseau cérébral chez les patients atteints de sclérose en plaques')
+
+# Ajout d'une barre de couleur pour représenter l'attribut modularity
+sm = plt.cm.ScalarMappable(cmap='coolwarm')
+sm.set_array(node_colors)
+cbar = plt.colorbar(sm, ax=[ax1, ax2], orientation='vertical', pad=0.05)
+cbar.set_label('Modularity')
 
 # Ajustement des espacements entre les sous-graphes
 plt.tight_layout()
 
 # Affichage de la figure
-plt.show()
+#plt.show()
 
 
 
