@@ -1,132 +1,130 @@
 from typing import List, Tuple, Set
 
-# Définition du type Vertex
-class Vertex:
-    def __init__(self, s: int):
-        self.s = s
-
-# Définition du type Graph
-class Graph:
-    def __init__(self, mat: List[List[int]], size: int):
-        self.mat = mat
-        self.size = size
 
 # Définition du type Arc
 class Arc:
-    def __init__(self, frm: Vertex, to: Vertex, weight: int):
-        self.from_vertex = frm
-        self.to_vertex = to
+    def __init__(self, sommet_i, sommet_j, weight):
+        self.from_vertex = sommet_i
+        self.to_vertex = sommet_j
         self.weight = weight
 
 # Fonction Astar
-def Dijkstra(s: Vertex, t: Vertex, G: Graph) -> Tuple[List[int], List[int]]:
-    distances, parents = Initialization(s, G)
-    GRIS = set([s])
+def Dijsktra(sommet_i, sommet_j, matrix):
+    distances, parents = Initialization(sommet_i, matrix)
+    GRIS = set([sommet_i])
     NOIR = set()
     b = 1
     while b != 0:
         if len(GRIS) == 0:
             return distances, parents
-        x = CalculateDmin(GRIS, distances, G)
-        if x == t:
+        sommet_i = CalculateDmin(GRIS, distances, matrix)
+        if sommet_i == sommet_j:
             return distances, parents
-        L = GetOutgoingArcs(x, G)
+        L = GetOutgoingArcs(sommet_i, matrix)
         for i in range(len(L)):
-            Relaxer(L[i], G, distances, parents, GRIS, NOIR)
-        ColorNodeBlack(x, GRIS, NOIR)
+            Relacher(L[i], matrix, distances, parents, GRIS, NOIR)
+        ColorNodeBlack(sommet_i, GRIS, NOIR)
     return distances, parents
 
 # Fonction Relax
-def Relaxer(e: Arc, G: Graph, d: List[int], parent: List[int], GRIS: Set[Vertex], NOIR: Set[Vertex]):
-    x, y = e.from_vertex, e.to_vertex
-    if d[x.s] + e.weight < d[y.s]:
-        d[y.s] = d[x.s] + e.weight
-        parent[y.s] = x.s
+def Relacher(arc, matrix, d  , parent  , GRIS, NOIR):
+    x, y = arc.from_vertex, arc.to_vertex
+    if d[x] + arc.weight < d[y]:
+        d[y] = d[x] + arc.weight
+        parent[y] = x
         ColorNodeGray(y, GRIS, NOIR)
 
 # Fonction ColorNodeGray
-def ColorNodeGray(y: Vertex, GRIS: Set[Vertex], NOIR: Set[Vertex]):
-    if y in NOIR:
-        NOIR.remove(y)
-        GRIS.add(y)
-    elif y not in GRIS:
-        GRIS.add(y)
+def ColorNodeGray(sommet, GRIS, NOIR):
+    if sommet in NOIR:
+        NOIR.remove(sommet)
+        GRIS.add(sommet)
+    elif sommet not in GRIS:
+        GRIS.add(sommet)
 
 # Fonction ColorNodeBlack
-def ColorNodeBlack(x: Vertex, GRIS: Set[Vertex], NOIR: Set[Vertex]):
-    NOIR.add(x)
-    GRIS.remove(x)
+def ColorNodeBlack(sommet, GRIS, NOIR):
+    NOIR.add(sommet)
+    GRIS.remove(sommet)
 
 # Fonction Initialization
-def Initialization(s: Vertex, G: Graph) -> Tuple[List[int], List[int]]:
-    d = [float('inf')] * G.size
-    parent = [-1] * G.size
-    d[s.s] = 0
+def Initialization(sommet,  matrix):
+    d = [len(matrix)+1000] * len(matrix)
+    parent = [-1] * len(matrix)
+    d[sommet] = 0
     return d, parent
 
 # Fonction CalculateDplusHmin
-def CalculateDmin(GRIS: Set[Vertex], d: List[int], G: Graph) -> Vertex:
+def CalculateDmin(GRIS, d, matrix):
     x = None
-    min_val = float('inf')
+    min_val = len(matrix)+1000
     for v in GRIS:
-        if d[v.s] + 1 < min_val:
+        if d[v] + 1 < min_val:
             x = v
-            min_val = d[v.s] + 1
+            min_val = d[v] + 1
     return x
 
 # Fonction GetOutgoingArcs
-def GetOutgoingArcs(x: Vertex, G: Graph) -> List[Arc]:
+def GetOutgoingArcs(sommet,  matrix):
     arcs = []
-    for i in range(len(G.mat[x.s])):
-        if G.mat[x.s][i] != 0:
-            arcs.append(Arc(x, Vertex(i), G.mat[x.s][i]))
+    for i in range(len(matrix[sommet])):
+        if matrix[sommet][i] != 0:
+            arcs.append(Arc(sommet, i, matrix[sommet][i]))
     return arcs
 
 # Fonction de test TestAstar
 def TestDijkstra():
-    # G0
-    G0 = Graph(
-        mat=[[0, 2, 0, 0, 5],
+
+    mat0=[[0, 2, 0, 0, 5],
              [2, 0, 1, 0, 0],
              [0, 1, 0, 4, 0],
              [0, 0, 4, 0, 3],
-             [5, 0, 0, 3, 0]],
-        size=5
-    )
-    s0 = Vertex(0)
-    t0 = Vertex(4)
-    distances0, parents0 = Dijkstra(s0, t0, G0)
+             [5, 0, 0, 3, 0]]
+    s0 = 0
+    t0 = 4
+    distances0, parents0 = Dijsktra(s0, t0, mat0)
     print(distances0)  # output: [0, 2, 3, 7, 5]
     print(parents0)  # output: [-1, 0, 1, 2, 0]
 
-    # G1
-    G1 = Graph(
-        mat=[[0, 1, 1, 0],
+
+    mat1=[[0, 1, 1, 0],
              [0, 0, 0, 0],
              [0, 0, 0, 1],
-             [0, 0, 0, 0]],
-        size=4
-    )
-    s1 = Vertex(0)
-    t1 = Vertex(3)
-    distances1, parents1 = Dijkstra(s1, t1, G1)
+             [0, 0, 0, 0]]
+    s1 = 0
+    t1 = 3
+    distances1, parents1 = Dijsktra(s1, t1, mat1)
     print(distances1)
     print(parents1)
 
-    # G2
-    G2 = Graph(
-        mat=[[0, 1, 1, 0, 0],
+    
+    mat2=[[0, 1, 1, 0, 0],
              [1, 0, 1, 1, 1],
              [1, 1, 0, 2, 2],
              [0, 1, 2, 0, 1],
-             [0, 1, 2, 1, 0]],
-        size=5
-    )
-    s2 = Vertex(0)
-    t2 = Vertex(4)
-    distances2, parents2 = Dijkstra(s2, t2, G2)
+             [0, 1, 2, 1, 0]]
+    
+    s2 = 0
+    t2 = 4
+    distances2, parents2 = Dijsktra(s2, t2, mat2)
     print(distances2)
     print(parents2)
 
 # Appel de la fonction de test
 print(TestDijkstra())
+
+
+def betweenness_centrality (matrix , sommet ):
+    sum = 0
+    paths = []
+    for i in range( len(matrix)):
+        for j in range(i, len(matrix)):
+            path = Dijsktra(i, j, matrix)
+            paths.append(path)
+    
+    for path in paths:
+        for i in range(len(path )):
+            if sommet == path[i]:
+                sum += 1
+    return sum
+
